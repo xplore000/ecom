@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/checkout.css">
+</head>
+<body>
+    
+        <div class="container">
+            <div class="header">
+                <h1 class="ctext">Checkout Form</h1>
+            </div>
+            <div class="details">
+            <form action="">
+                <div class="ship">
+                    <h1>
+                        <i class="fas fa-shipping-fast"></i>
+                        Shipping Details
+                    </h1>
+                    <div class="name">
+                        <div class="fname">
+                            <label >First Name :</label>
+                            <input type="text" placeholder="Enter First Name" class="f-name">
+                        </div>
+                        <div class="lname">
+                            <label >Last Name :</label>
+                            <input type="text" placeholder="Enter Last Name" class="l-name">
+                        </div>
+                    </div>
+                    <div class="street">
+                        <label  class="add-text">Street Address :</label>
+                        <input type="text" placeholder="Enter Address" class="add-box">
+                    </div>
+                    <div class="address-info">
+                        <div class="city-div">
+                            <label class="city-text">City :</label>
+                            <input type="text" class="city" placeholder="Enter City">
+                        </div>
+                        <div class="state-div">
+                            <label class="state-text">State :</label>
+                            <input type="text" class="state" placeholder="Enter state">
+                        </div>
+                        <div class="zip-div">
+                            <label class="zip-text">Zip :</label>
+                            <input type="text" class="zip" placeholder="Enter Zip-Code">
+                        </div>
+                    </div>
+                </div>
+                <div class="pay">
+                    <h1>
+                        <i class="pay-info"></i> Payment Details
+                    </h1>
+                    <div class="acc">
+                        <label for="">Accepted Cards : </label>
+                        <img class="visa" src="/images/visa.jpg" alt="">
+                        <img class="master"src="/images/master.png" alt="">
+                        <img class="american" src="/images/American-Express-Logo.png" alt="">
+                        <img class="rupay" src="/images/rupay.png" alt="">
+                    </div>
+                    <div class="holder">
+                        <label class="holder-text">Card Holder Name </label>
+                        <input type="text"placeholder="Enter Card Holder Name" class="card-name">
+                    </div>
+                    <div class="cc-num">
+                        <label class="card-num">Credit Card No.</label>
+                        <input type="text" class="card" placeholder="0000-0000-0000-0000">
+                    </div>
+                    <div class="cc-info">
+                        <div class="month">
+                            <label class="exp-month-text">Exp Month</label>
+                            <select name="" id="exp-month">
+                                <option value="">Jan</option>
+                                <option value="">Feb</option>
+                                <option value="">Mar</option>
+                                <option value="">Apr</option>
+                                <option value="">May</option>
+                                <option value="">Jun</option>
+                                <option value="">Jul</option>
+                                <option value="">Aug</option>
+                                <option value="">Sep</option>
+                                <option value="">Oct</option>
+                                <option value="">Nov</option>
+                                <option value="">Dec</option>
+
+                            </select>
+                        </div>
+                        <div class="year">
+                            <label class="exp-year-text">Exp Year</label>
+                            <select name="" id="exp-year">
+                                <option value="">2023</option>
+                                <option value="">2024</option>
+                                <option value="">2025</option>
+                                <option value="">2026</option>
+                                <option value="">2027</option>
+                                <option value="">2028</option>
+                                <option value="">2029</option>
+                                <option value="">2030</option>
+                                
+
+                            </select>
+                        </div>
+                        <div class="cvv-div">
+                            <label class="cvv-text">CCV</label>
+                            <input type="text" name="security" class="cvv" placeholder="000">
+                        </div>
+                    </div>
+                    <div class="btns">
+                        <button class="btn">Checkout</button>
+                        <button class="btn">Back to cart</button>
+                    </div> 
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
