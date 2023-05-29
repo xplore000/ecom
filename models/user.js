@@ -1,6 +1,5 @@
 const mongoose=require("mongoose")
 const bcrypt = require('bcrypt');
-const schema=new mongoose.Schema
 
 
 const product_schema=mongoose.Schema({
@@ -43,9 +42,13 @@ const userSchema = mongoose.Schema({
       });
     });
   });
-const product_model=mongoose.model('products',product_schema)
+
+
+  const product_model = mongoose.model('products', product_schema);
+
+
 const user_model=mongoose.model('users',userSchema)
-module.exports={product_model}
-module.exports={user_model}
+
+module.exports={user_model,product_model}
 
 

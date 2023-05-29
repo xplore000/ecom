@@ -9,6 +9,7 @@ var adminRouter = require('./routes/admin');
 const mongoose = require('mongoose');
 var app = express();
 var fileupload=require("express-fileupload")
+var session=require('express-session')
 
 
 // view engine setup
@@ -23,23 +24,26 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileupload())
-
-
+app.use(session({
+  secret: '12345678',
+  resave: false,
+  saveUninitialized: true,
+  cookie:{maxAge:600000}
+}));
 
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
 app.disable('etag');
- mongoose.connect('mongodb://localhost/sample', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://127.0.0.1:27017/sample', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // // Handle connection events
  const db = mongoose.connection;
  db.on('error', console.error.bind(console, 'connection error:'));
  db.once('open', function() {
   console.log('Connected to MongoDB');
-
-  //Start using Mongoose here
-  // Define models, create documents, query the database, etc.
+  
 });
+
 
 
 // catch 404 and forward to error handler

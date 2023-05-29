@@ -1,19 +1,38 @@
 var express = require('express');
 var router = express.Router();
+var mongoose=require('mongoose')
+const bcrypt = require('bcrypt');
 const {product_model}=require('../models/user')
-const {user_model}=require('../models/user')
-/* GET home page. */
-router.get('/', async function(req, res, next) {
-  try {
-    const data = await product_model.find({}).lean();
-    console.log('Fetched data:', data);
-    res.render('user/view-product', {  data,admin:false });
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-  
-});
+const {user_model}=require('../models/user');
+// /* GET home page. */
 
+// Middleware to check if the user is authenticated
+const isAuthenticated = (req, res, next) => {
+  if (req.session.userId) {
+    // User is authenticated, proceed to the next middleware
+    next();
+  } else {
+    // User is not authenticated, redirect to login page
+    res.redirect('/login');
+  }
+};
+
+
+router.get('/', async function(req, res, next) {
+  
+    if(req.session.userId)
+    {
+      const userId = req.session.userId;
+    const user = await user_model.findById(userId).lean();
+    const data = await product_model.find({}).lean();
+    res.render('user/view-product', { data, admin: false, user });
+    }
+    else{
+      const data = await product_model.find({}).lean();
+      res.render('user/view-product', { data, admin: false });
+    }
+  } 
+);
 router.post('/register',async (req,res)=>{
 
   console.log(req.body)
@@ -24,46 +43,55 @@ router.post('/register',async (req,res)=>{
 })
 
 
-router.get("/login",(req,res)=>{
-  res.render('user/login')
+router.get("/login", (req, res) => {
+  if (req.session.userId) {
+    res.redirect('/');
+  } else {
+    res.render('user/login');
+
+  }
+});
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.render('user/login', { error: 'Please provide both email and password' });
+  }
+
+  try {
+    const user = await user_model.findOne({ email });
+
+    if (!user) {
+      return res.render('user/login', { error: 'Invalid email or password' });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.render('user/login', { error: 'Invalid email or password' });
+    }
+
+    req.session.userId = user._id;
+    res.redirect('/');
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+router.get('/logout',(req,res)=>{
+  req.session.destroy()
+  res.redirect('/')
 })
+
+
 router.get("/register",(req,res)=>{
   console.log("got it")
   res.render('user/register')
 })
 
-router.post('/login', (req, res) => {
-  const { email, password } = req.body;
 
-  // Find the user by email
-  user.find({ email }).lean()
-    .then((user) => {
-      if (!user) {
-        // User not found
-        return res.status(404).json({ message: 'User not found' });
-      }
-
-      // Compare the provided password with the stored hashed password
-      bcrypt.compare(password, user.password)
-        .then((isMatch) => {
-          if (isMatch) {
-            // Passwords match, user is authenticated
-            // You can generate and send a token for authentication or proceed with further actions
-            return res.status(200).json({ message: 'User authenticated' });
-          } else {
-            // Passwords do not match
-            return res.status(401).json({ message: 'Invalid password' });
-          }
-        })
-        .catch((error) => {
-          console.error('Error comparing passwords:', error);
-          res.status(500).json({ message: 'Internal server error' });
-        });
-    })
-    .catch((error) => {
-      console.error('Error finding user:', error);
-      res.status(500).json({ message: 'Internal server error' });
-    });
-});
 
 module.exports = router;
