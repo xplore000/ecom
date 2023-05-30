@@ -86,12 +86,30 @@ router.get('/logout',(req,res)=>{
   res.redirect('/')
 })
 
+router.get('/cart',isAuthenticated,(req,res)=>{
+  res.render('user/cart')
+})
 
 router.get("/register",(req,res)=>{
   console.log("got it")
   res.render('user/register')
 })
 
+router.post('/admin/delete-product/:id', async (req, res) => {
+  const productId = req.params.id;
+
+  try {
+    // Find the product by ID and remove it from the database
+    await product_model.findByIdAndRemove(productId).lean()
+    console.log(req.body)
+    res.redirect('/admin'); // Redirect to the homepage or any other desired page after successful deletion
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+  
 
 
 module.exports = router;
